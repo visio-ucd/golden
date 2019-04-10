@@ -1,9 +1,13 @@
-#File: Testgen.py
+#File: Testgen_normal.py
 #name: UCD-Visio
 #
 #Description: Generates testbench (.vt) and reference (.csv) for adder and mult 
 #             to use in simulation and verification against golden reference.
-                  
+#             
+#Note: When specifying the range of test cases, it will likely generate less than 
+#      (Range^2) number of cases. The total number of cases is actually
+#      (Range^2) - (number of denormal bfloats).
+  
 import sys
 sys.path.append('../golden/basic_logic')
 import itertools
@@ -12,7 +16,7 @@ import argparse
 import addmult_v2 as v2
 
 parser = argparse.ArgumentParser(description='Generate testbench files for mult_comb.v and add_comb.v')
-parser.add_argument("-n","--range", help="The total number (n^2) of test cases to run. Default is 2", default=2)
+parser.add_argument("-n","--range", help="The total number (range^2) of test cases to run. Default is 2", default=2)
 parser.add_argument("-r","--random",   help="randomize test case list before testing. Default is True.", default="True")
 parser.add_argument("-s","--stepsize", help="stepsize for the simulation in picoseconds. Default is 10.", default=10)
 parser.add_argument("-a","--adder", help="Generate files for adder. Default is True.", default="True")
@@ -67,16 +71,16 @@ if(mult):
             b_v2 = v2.bfloat(str(b[0]),str(b[1:9]),str(b[9:]))
             c_v2 = v2.bfloat_mult(a_v2, b_v2)
             #value == '' means the bfloat is a normal value.
-            
-            fvt_mult.writelines([
-                "\t\ta = 16'b", a ,";\n",
-                "\t\tb = 16'b", b ,";\n",
-                "\t\t", ts, "\n\n"
-            ])
+            if(c_v2.exp != '0'*8 and a_v2.exp != '0'*8 and b_v2.exp != '0'*8 ):
+                fvt_mult.writelines([
+                    "\t\ta = 16'b", a ,";\n",
+                    "\t\tb = 16'b", b ,";\n",
+                    "\t\t", ts, "\n\n"
+                ])
 
-            a_table.append(a)
-            b_table.append(b)
-            c_table.append(c_v2.bin())
+                a_table.append(a)
+                b_table.append(b)
+                c_table.append(c_v2.bin())
     a_table.extend([a_table[-1], a_table[-1]])
     b_table.extend([b_table[-1], b_table[-1]])
 
@@ -132,18 +136,18 @@ if(add):
             b = v2.rand16()
             a_v2 = v2.bfloat(str(a[0]),str(a[1:9]),str(a[9:]))
             b_v2 = v2.bfloat(str(b[0]),str(b[1:9]),str(b[9:]))
-            c_v2 = v2.bfloat_add(a_v2, b_v2)
+            c_v2 = v2.bfloat_mult(a_v2, b_v2)
             #value == '' means the bfloat is a normal value.
-            
-            fvt_add.writelines([
-                "\t\ta = 16'b", a ,";\n",
-                "\t\tb = 16'b", b ,";\n",
-                "\t\t", ts, "\n\n"
-            ])
+            if(c_v2.exp != '0'*8 and a_v2.exp != '0'*8 and b_v2.exp != '0'*8):
+                fvt_mult.writelines([
+                    "\t\ta = 16'b", a ,";\n",
+                    "\t\tb = 16'b", b ,";\n",
+                    "\t\t", ts, "\n\n"
+                ])
 
-            a_table.append(a)
-            b_table.append(b)
-            c_table.append(c_v2.bin())
+                a_table.append(a)
+                b_table.append(b)
+                c_table.append(c_v2.bin())
     a_table.extend([a_table[-1], a_table[-1]])
     b_table.extend([b_table[-1], b_table[-1]])
 
