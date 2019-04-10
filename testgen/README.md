@@ -6,7 +6,7 @@ The generated testbenches should be use in conjunction with the respective veril
 The reference csv files is used to compare and verify the correctness of add/mult modules.
 
 ### 2. Usage
-`Python testgen.py [-r range] [-m True/False] [-s TB_stepsize] [-a True/False] [-p True/False]`  
+`Python testgen.py [-n number_of_tests] [-m True/False] [-s TB_stepsize] [-a True/False] [-m True/False]`  
 
 Options:
 - -n --range 
@@ -31,7 +31,7 @@ The script diffs `add_out.csv` with `add_ref.csv` and `mult_out.csv` with `mult_
 The is use to check whether the add/mult modules produce the correct outputs. 
 
 ### 2. Usage
-`Python check.py [-w True/False] [-a True/False] [-p True/False]`   
+`Python check.py [-w True/False] [-a True/False] [-m True/False]`   
 - -w --write
   - If True, writes output to a `diff_mult.txt` and/or `diff_add.txt` at the same directory as the script. Default is True.
 - -a --adder
