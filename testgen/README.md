@@ -1,5 +1,4 @@
-Testgen.py - Includes denormal numbers
-Testgen_normal.py - Excludes denormal numbers
+Testgen.py/ Testgen_normal.py
 ---------
 ### 1. Introduction  
 The script is used to generate testbench and reference files for the [`bfloat16_adder`](https://github.com/athlaing/CNN/tree/verilog_dev/verilog/adder_comb) and [`mult_comb`.](https://github.com/athlaing/CNN/tree/verilog_dev/verilog/multiplier_comb)
