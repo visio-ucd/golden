@@ -23,6 +23,9 @@ Options:
 ### 3. Important Details
 Running `testgen.py` will generate files at the same directory as the script.   
 Running generated testbench files (`mult_comb.vt` , `add_comb.vt`) til finish will produce an output (`*_out.csv`) file at the simulation directory. 
+
+
+Testgen_normal.py will only generate normal numbers, whereas testgen.py will include denormal number.
    
 Checker.py
 ---
@@ -42,4 +45,3 @@ The is use to check whether the add/mult modules produce the correct outputs.
 ### 3. Important Details
 Both the `*_out.csv` and `*_ref.csv` must at the same directory as `checker.py`. See Testgen above to find out where `*_out.csv` is located initially.    
 
-Testgen_normal.py will only generate normal numbers, whereas testgen.py will include denormal number.
